@@ -1,0 +1,77 @@
+h1{
+  background-color: rgb(3, 170, 170);
+  margin: 0;
+  padding: 20px;
+  }
+      
+body{
+  font-family: Arial, sans-serif;
+  }
+
+#showAddForm, #showEmployeeTable {
+  cursor: pointer;
+  color: blue;
+  text-decoration: underline;
+  font-size: 18px;
+  margin-right: 10px;        
+  }
+
+  .addEmployeeForm {
+  display: none;
+  justify-content: center;
+  }
+
+form {
+  margin-top: 20px;
+  background-color: rgb(14, 14, 15);
+  border: solid 1px gray;
+  border-radius: 10px;
+  height: 500px;
+  width: 400px;
+  padding: 20px;
+  box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
+  }
+
+label {
+  color: white;
+  margin: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  }
+      
+input {
+  margin: 20px 20px 10px 20px;
+  padding: 10px;
+  width: 340px;
+  }
+
+#department {
+  margin: 20px 20px 10px 20px;
+  padding: 10px;
+  width: 365px;
+  }
+
+.addButton {
+  margin: 40px 100px 40px 100px;
+  padding: 10px;
+  width: 200px;
+  background-color: rgb(3, 170, 170);
+  }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  }
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+  }
+      
+th {
+  background: #f4f4f4;
+  }
+      
+  

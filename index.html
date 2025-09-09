@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Employee Management System</title>
+    <link rel="stylesheet" href="/styles/style.css">
+  </head>
+  <body>
+    <h1>Employee Management System</h1>
+
+    <a href id="showAddForm">Add Employee</a>
+    <a href id="showEmployeeTable">View Employee Table</a>
+
+    <!-- Add Employee Form -->
+    <div class="addEmployeeForm">
+      <form id="employeeForm">
+        <label>Add New Employee</label>
+        <input type="text" id="eid" readonly> <br>
+        <input type="text" id="name" placeholder="Employee Name" required> <br>
+        <input type="email" id="email" placeholder="Email" required> <br>
+        <select id="department" name="department" required>
+          <option value="">Select Department</option>
+          <option value="Human Resources (HR)">Human Resources (HR)</option>
+          <option value="Engineering / Development">Engineering / Development</option>
+          <option value="Quality Assurance (QA) / Testing">Quality Assurance (QA) / Testing</option>
+          <option value="Design / User Experience (UX/UI)">Design / User Experience (UX/UI)</option>
+          <option value="Sales & Marketing">Sales & Marketing</option>
+        </select> <br>
+        <input type="number" id="salary" placeholder="Salary" required> <br>
+        <button class="addButton" type="submit" id="submitBtn">Add Employee</button>
+      </form>
+    </div>
+
+    <!-- Employee Table -->
+    <table id="employeeTable">
+      <thead>
+        <tr>
+          <th onclick="manager.sortEmployeesBy('eid')">EID</th>
+          <th onclick="manager.sortEmployeesBy('name')">Name</th>
+          <th onclick="manager.sortEmployeesBy('email')">Email</th>
+          <th onclick="manager.sortEmployeesBy('department')">Department</th>
+          <th onclick="manager.sortEmployeesBy('salary')">Salary</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="employeeTableBody">
+      </tbody>
+    </table>
+  </body>
+  <script src="scripts/script.js"></script>
+</html>
