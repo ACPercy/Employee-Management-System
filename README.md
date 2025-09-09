@@ -10,7 +10,7 @@ This project demonstrates the use of **Object-Oriented Programming (OOP)** conce
 
 ---
 
-🚀 Features
+## 🚀 Features
 - Add new employees with details: Employee ID, Name, Email, Department, and Salary
 - Auto-generate unique Employee IDs (first letter of employee’s name + incrementing number, e.g., P0001)
 - Store and retrieve employee data using Local Storage (for now)
