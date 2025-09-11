@@ -51,7 +51,7 @@ This project demonstrates the use of **Object-Oriented Programming (OOP)** conce
 - [x] Basic form validation for correct input format (email, salary)
 - [x] Auto-increment unique EID (first letter of employee’s name + unique incrementing number, e.g., P0001)
 - [x] Sort employees by EID / Name / Email / Department / Salary
-- [ ] Search/filter employees by name, department, or other fields
+- [x] Search/filter employees by name, department, or other fields
 - PHASE 3: Authentication & Role-Based Login
 - [ ] Add a Login Page with roles:
       • Admin – Full access (add, edit, delete, manage users)
