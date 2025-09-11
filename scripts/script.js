@@ -31,10 +31,17 @@ class EmployeeManager {
     this.addEmployeeForm = document.querySelector(".addEmployeeForm");
     this.submitBtn = document.getElementById("submitBtn");
     this.showAddForm = document.getElementById("showAddForm");
+    
+    this.cancelBtn = document.getElementById("cancelBtn");
+    this.searchInput = document.getElementById("searchInput");
 
     // Bind events
     this.form.addEventListener("submit", (e) => this.handleSubmit(e));
-    this.showAddForm.addEventListener("click", (e) => this.toggleForm(e));
+    this.showAddForm.addEventListener("click", (e) => this.showAddEmployeeForm(e));
+    this.cancelBtn.addEventListener("click", () => this.cancelForm());
+    this.searchInput.addEventListener("input", (e) => {
+      this.searchEmployees(e.target.value);
+    });
 
     // Initial render
     this.renderTable();
@@ -65,27 +72,30 @@ class EmployeeManager {
     return `${firstLetter}${nextNumber.toString().padStart(4, "0")}`;
   }
 
-  renderTable() {
-  // Helper function to add arrow to sorted column
-  const getHeader = (field, label) => {
-  let arrow = "";
-    if (this.currentSortField === field) {
-      arrow = this.sortAscending ? " ▲" : " ▼";
-    }
-    return `<th onclick="manager.sortEmployeesBy('${field}')">${label}${arrow}</th>`;
-  };
+  renderTable(list = this.employees) {
+    // Get search value
+    const searchValue = this.searchInput ? this.searchInput.value.toLowerCase() : "";
+    // Helper function to add arrow to sorted column
+    const getHeader = (field, label) => {
+    let arrow = "";
+      if (this.currentSortField === field) {
+        arrow = this.sortAscending ? " ▲" : " ▼";
+      }
+      return `<th onclick="manager.sortEmployeesBy('${field}')">${label}${arrow}</th>`;
+    };
 
-  this.table.innerHTML = `
-    <tr>
-      ${getHeader("eid", "EID")}
-      ${getHeader("name", "Name")}
-      ${getHeader("email", "Email")}
-      ${getHeader("department", "Department")}
-      ${getHeader("salary", "Salary")}
-      <th>Actions</th>
-    </tr>
-  `;
-    this.employees.forEach((emp, index) => {
+    this.table.innerHTML = `
+      <tr>
+        ${getHeader("eid", "EID")}
+        ${getHeader("name", "Name")}
+        ${getHeader("email", "Email")}
+        ${getHeader("department", "Department")}
+        ${getHeader("salary", "Salary")}
+        <th>Actions</th>
+      </tr>
+    `;
+    
+    list.forEach((emp, index) => {
       this.table.innerHTML += `
         <tr>
           <td>${emp.eid}</td>
@@ -109,7 +119,7 @@ class EmployeeManager {
     const email = document.getElementById("email").value;
     const department = document.getElementById("department").value;
     const salary = document.getElementById("salary").value;
-
+    
     if (this.editIndex === null) {
     // Create new employee
       const employee = new Employee(eid, name, email, department, salary);
@@ -133,6 +143,8 @@ class EmployeeManager {
 
   editEmployee(index) {
     this.addEmployeeForm.style.display = "flex";
+    this.table.style.display = "none"; // hide table while editing
+    this.searchInput.style.display = "none";
     const emp = this.employees[index]; 
       this.eidField.value = emp.eid;
       this.nameInput.value = emp.name;
@@ -150,13 +162,31 @@ class EmployeeManager {
     this.renderTable();
   }
 
-  toggleForm(e) {
+  showAddEmployeeForm(e) {
     e.preventDefault();
-    this.addEmployeeForm.style.display =
-    this.addEmployeeForm.style.display === "none" ||
-    this.addEmployeeForm.style.display === ""
-      ? "flex"
-      : "none";
+    // Always open in "Add Employee" mode
+    this.addEmployeeForm.style.display = "flex";
+    this.table.style.display = "none";
+    this.searchInput.style.display = "none";
+
+    // Reset form for new entry
+    this.form.reset();
+    this.eidField.value = "";
+    this.editIndex = null;
+    this.submitBtn.textContent = "Add Employee";
+  }
+
+  cancelForm() {
+  // Hide form and show table
+  this.addEmployeeForm.style.display = "none";
+  this.table.style.display = "table";
+  this.searchInput.style.display = "flex"
+
+  // Reset state
+  this.form.reset();
+  this.eidField.value = "";
+  this.editIndex = null;
+  this.submitBtn.textContent = "Add Employee";
   }
 
   sortEmployeesBy(field) {
@@ -182,6 +212,19 @@ class EmployeeManager {
     });
 
     this.renderTable();
+  }
+
+  searchEmployees(query) {
+    query = query.toLowerCase();
+    // Filter employees based on search input
+    const filteredEmployees = this.employees.filter(emp =>
+      emp.eid.toLowerCase().includes(query) ||
+      emp.name.toLowerCase().includes(query) ||
+      emp.email.toLowerCase().includes(query) ||
+      emp.department.toLowerCase().includes(query)
+    );
+
+    this.renderTable(filteredEmployees); // pass filtered results
   }
 }
 

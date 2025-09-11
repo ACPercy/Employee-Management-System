@@ -8,15 +8,17 @@
     <h1>Employee Management System</h1>
 
     <a href id="showAddForm">Add Employee</a>
-    <a href id="showEmployeeTable">View Employee Table</a>
+    <a href id="showEmployeeTable">View Employee Table</a> <br>
+
+    <input class="searchField" type="text" id="searchInput" placeholder="Search employee...">
 
     <!-- Add Employee Form -->
     <div class="addEmployeeForm">
       <form id="employeeForm">
         <label>Add New Employee</label>
-        <input type="text" id="eid" readonly> <br>
-        <input type="text" id="name" placeholder="Employee Name" required> <br>
-        <input type="email" id="email" placeholder="Email" required> <br>
+        <input class="inputField" type="text" id="eid" readonly> <br>
+        <input class="inputField" type="text" id="name" placeholder="Employee Name" required> <br>
+        <input class="inputField" type="email" id="email" placeholder="Email" required> <br>
         <select id="department" name="department" required>
           <option value="">Select Department</option>
           <option value="Human Resources (HR)">Human Resources (HR)</option>
@@ -25,8 +27,12 @@
           <option value="Design / User Experience (UX/UI)">Design / User Experience (UX/UI)</option>
           <option value="Sales & Marketing">Sales & Marketing</option>
         </select> <br>
-        <input type="number" id="salary" placeholder="Salary" required> <br>
-        <button class="addButton" type="submit" id="submitBtn">Add Employee</button>
+        <input class="inputField" type="number" id="salary" placeholder="Salary" required> <br>
+        <div class="buttons">
+          <button class="addButton" type="submit" id="submitBtn">Add Employee</button>
+          <button class="cancelButton" type="button" id="cancelBtn">Cancel</button>
+        </div>
+        
       </form>
     </div>
 
