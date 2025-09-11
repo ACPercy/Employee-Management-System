@@ -104,8 +104,8 @@ class EmployeeManager {
           <td>${emp.department}</td>
           <td>${emp.salary}</td>
           <td>
-            <button onclick="manager.editEmployee(${index})">Edit</button>
-            <button onclick="manager.deleteEmployee(${index})">Delete</button>
+            <button class="editButton" onclick="manager.editEmployee(${index})">Edit</button>
+            <button class="deleteButton" onclick="manager.deleteEmployee(${index})">Delete</button>
           </td>
         </tr>
       `;

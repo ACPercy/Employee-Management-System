@@ -1,19 +1,62 @@
-h1{
-  background-color: rgb(3, 170, 170);
+.header{
+  background: linear-gradient(to left, rgb(6, 230, 230), rgb(4, 170, 170), rgb(2, 70, 70));
+  color: white;
   margin: 0;
-  padding: 20px;
+  padding: 10px;
+  height: 60px;
 }
       
 body{
+  height: 100vh;
   font-family: Arial, sans-serif;
+  background: linear-gradient(to left, rgb(6, 230, 230), rgb(4, 170, 170), rgb(2, 70, 70));
 }
 
-#showAddForm, #showEmployeeTable {
+.adminDashboard {
+  display: flex;
+  flex-direction: row;
+  height: calc(100vh - 60px);
+}
+
+.adminLeftDashboard{
+  display: flex;
+  flex-direction: column;
+  width: 180px;
+  color: white;
+  border-right: solid rgb(2, 70, 70);
+}
+
+.dashboard {
+  margin: 0;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  background-color: rgb(2, 70, 70);
+}
+#showAddForm, #showEmployeeTable, #logout {
   cursor: pointer;
-  color: blue;
-  text-decoration: underline;
-  font-size: 18px;
-  margin: 0 0 10px 10px;        
+  border: none;
+  padding: 10px;
+  font-size: 14px;
+  margin: 0; 
+  text-align: left; 
+  color: white;    
+}
+
+#showAddForm:hover, #showEmployeeTable:hover, #logout:hover {
+  background-color: rgb(2, 70, 70);
+}
+
+.adminRightDashboard {
+  border-top: solid; 
+  border-image: linear-gradient(to left, rgb(6, 230, 230), rgb(4, 170, 170), rgb(2, 70, 70)) 1;
+  flex: 1;
+}
+
+.dashboardTitle {
+  color: white;
+  margin: 10px 10px 10px 10px; 
+  font-weight: bold;
 }
 
 .addEmployeeForm {
@@ -46,7 +89,7 @@ label {
 }
 
 .searchField {
-  margin: 30px 10px 10px 10px;
+  margin: 0 10px 10px 10px;
   padding: 10px;
   width: 340px;
   border: solid 1px lightgray;
@@ -64,7 +107,7 @@ label {
   color: gray;
 }
 
-.buttons {
+.formButtons {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -104,6 +147,7 @@ table {
   width: 99%;
   border-collapse: collapse;
   margin-left: 10px;
+  background-color: #f4f4f4;
 }
 
 th, td {
@@ -113,11 +157,27 @@ th, td {
 }
       
 th {
-  background: #f4f4f4;
+  background: lightgray;
 }
 
 tr:hover {
-  background-color: rgb(230, 230, 230);
+  background-color: lightgray;
 }
-      
   
+.editButton {
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+  width: 50px;
+  background-color:  rgb(60, 60, 255);
+  color: white;
+}
+  
+.deleteButton {
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+  width: 50px;
+  background-color: rgb(255, 60, 60);
+  color: white;
+}
