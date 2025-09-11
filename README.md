@@ -59,11 +59,16 @@ This project demonstrates the use of **Object-Oriented Programming (OOP)** conce
       •	Employee – View own profile/details only
 - [ ] Store login credentials in Local Storage 
 - [ ] Redirect users to different dashboards based on role
-- PHASE 4: Connect Database
-- [ ] Replace Local Storage with MySQL database
-- [ ] Backend: Java (Spring Boot) or Node.js/Express
-- [ ] Use database tables for Employees, Users (for login), and Roles
-- [ ] Implement CRUD APIs for employees (Create, Read, Update, Delete)
+
+---
+
+## 🚀 Future Improvements
+In future iterations of this project, the following enhancements can be added:
+- Database Integration – Replace Local Storage with a relational database (e.g., MySQL or PostgreSQL) for more reliable data persistence.
+- Backend Development – Implement a backend using Java (Spring Boot) or Node.js/Express to handle server-side logic.
+- User & Role Management – Store user accounts and roles in database tables (Employees, Users, Roles) for scalable authentication and authorization.
+- RESTful APIs – Create secure CRUD APIs (Create, Read, Update, Delete) for managing employees and user data.
+- Deployment – Host the application online with a connected database, making it production-ready.
 
 ---
 
