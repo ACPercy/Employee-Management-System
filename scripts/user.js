@@ -66,5 +66,5 @@ const userManager = new UserManager();
 
 function logout() {
   localStorage.removeItem("loggedInUser"); // clear session
-  window.location.href = "login.html"; // go back to login page
+  window.location.href = "index.html"; // go back to login page
 }
