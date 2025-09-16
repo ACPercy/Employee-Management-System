@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="UTF-8">
     <title>Employee Management System</title>
     <link rel="stylesheet" href="styles/style.css">
   </head>
@@ -10,9 +11,9 @@
     </div>
     
 
-    <div class="adminDashboard">
+    <div class="Dashboard">
       <div class="adminLeftDashboard">
-        <p class="dashboard">Admin Dashboard</p>
+        <p class="dashboardLabel">Admin Dashboard</p>
         <a href id="showAddForm">Add Employee</a>
         <a href id="showEmployeeTable">View Employee Table</a>
         <a href id="logout">Logout</a>
@@ -45,7 +46,7 @@
             <input class="inputField" type="text" id="eid" readonly> <br>
             <input class="inputField" type="text" id="name" placeholder="Employee Name" required> <br>
             <input class="inputField" type="email" id="email" placeholder="Email" required> <br>
-            <select id="department" name="department" required>
+            <select class="dropdownField" id="department" name="department" required>
               <option value="">Select Department</option>
               <option value="Human Resources (HR)">Human Resources (HR)</option>
               <option value="Engineering / Development">Engineering / Development</option>
@@ -66,5 +67,5 @@
       
     
   </body>
-  <script src="scripts/script.js"></script>
+  <script src="scripts/employee.js"></script>
 </html>

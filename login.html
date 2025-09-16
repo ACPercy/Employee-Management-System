@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Employee Management System - Login</title>
+    <link rel="stylesheet" href="styles/style.css">
+  </head>
+  <body>
+    <div class="header">
+      <h1>Employee Management System</h1>
+    </div>
+    
+    <div class="loginContainer">
+      <form id="loginForm">
+        <label>Login</label>
+        <select id="role" class="dropdownField" required>
+          <option value="">Choose Role</option>
+          <option value="Admin">Admin</option>
+          <option value="Manager">Manager</option>
+          <option value="Employee">Employee</option>
+        </select>
+        <input class="inputField" type="text" id="username" placeholder="Username" required>
+        <input class="inputField" type="password" id="password" placeholder="Password" required>
+        <button class="loginButton" type="submit" id="loginBtn">Login</button>
+      </form>
+    </div>
+  </body>
+</html>
