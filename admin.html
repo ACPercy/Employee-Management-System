@@ -11,62 +11,130 @@
     </div>
     
 
-    <div class="Dashboard">
+    <div class="adminDashboard">
       <div class="adminLeftDashboard">
-        <p class="dashboardLabel">Admin Dashboard</p>
-        <a href id="showAddForm">Add Employee</a>
-        <a href id="showEmployeeTable">View Employee Table</a>
-        <a href="javascript:void(0)" onclick="logout()" id="logout">Logout</a>
+        <p class="dashboardLabel">Welcome Admin</p>
+        <p id="dashboard">Dashboard</p>
+        <p id="manageEmployees">Manage Employees</p>
+        <p id="manageUsers">Manage Users</p>
+        <p id="logout" onclick="loginManager.logout()">Logout</p>
       </div>
 
       <div class="adminRightDashboard">
-        <p class="dashboardTitle">COMPANY EMPLOYEES</p>
-        <input class="searchField" type="text" id="searchInput" placeholder="Search employee..."> 
-        
-        <!-- Employee Table -->
-        <table id="employeeTable">
-          <thead>
-            <tr>
-              <th onclick="manager.sortEmployeesBy('eid')">EID</th>
-              <th onclick="manager.sortEmployeesBy('name')">Name</th>
-              <th onclick="manager.sortEmployeesBy('email')">Email</th>
-              <th onclick="manager.sortEmployeesBy('department')">Department</th>
-              <th onclick="manager.sortEmployeesBy('salary')">Salary</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="employeeTableBody">
-          </tbody>
-        </table>
+        <!-- Employee Section -->
+        <div id="employeeSection">
+          <p class="dashboardTitle">MANAGE EMPLOYEES</p>
+          
+          <div class="employeeControls">
+            <input class="searchField" type="text" id="searchEmployee" placeholder="Search employee...">
+            <button type="button" id="addEmployeeBtn">Add Employee</button>
+            <button type="button" id="viewEmployeeTableBtn">View Employees</button>
+          </div>
 
-        <!-- Add Employee Form -->
-        <div class="addEmployeeForm">
-          <form id="employeeForm">
-            <label>Add New Employee</label>
-            <input class="inputField" type="text" id="eid" readonly> <br>
-            <input class="inputField" type="text" id="name" placeholder="Employee Name" required> <br>
-            <input class="inputField" type="email" id="email" placeholder="Email" required> <br>
-            <select class="dropdownField" id="department" name="department" required>
-              <option value="">Select Department</option>
-              <option value="Human Resources (HR)">Human Resources (HR)</option>
-              <option value="Engineering / Development">Engineering / Development</option>
-              <option value="Quality Assurance (QA) / Testing">Quality Assurance (QA) / Testing</option>
-              <option value="Design / User Experience (UX/UI)">Design / User Experience (UX/UI)</option>
-              <option value="Sales & Marketing">Sales & Marketing</option>
-            </select> <br>
-            <input class="inputField" type="number" id="salary" placeholder="Salary" required> <br>
-            <div class="formButtons">
-              <button class="addButton" type="submit" id="submitBtn">Add Employee</button>
-              <button class="cancelButton" type="button" id="cancelBtn">Cancel</button>
-            </div>
-          </form>
+          <!-- Employee Table -->
+          <div class="table-wrapper">
+            <table id="employeeTable">
+              <thead>
+                <tr>
+                  <th onclick="manager.sortEmployeesBy('eid')">EID</th>
+                  <th onclick="manager.sortEmployeesBy('name')">Name</th>
+                  <th onclick="manager.sortEmployeesBy('email')">Email</th>
+                  <th onclick="manager.sortEmployeesBy('department')">Department</th>
+                  <th onclick="manager.sortEmployeesBy('position')">Position</th>
+                  <th onclick="manager.sortEmployeesBy('role')">Role Type</th>
+                  <th onclick="manager.sortEmployeesBy('salary')">Salary</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="employeeTableBody">
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Add Employee Form -->
+          <div class="employeeFormContainer">
+            <form id="employeeForm">
+              <label id="formTitle">Add New Employee</label>
+              <input placeholder="EID" class="inputField" type="text" id="eid" readonly> <br>
+              <input class="inputField" type="text" id="name" placeholder="Employee Name" > <br>
+              <input class="inputField" type="email" id="email" placeholder="Email" > <br>
+              <select class="dropdownField" id="department" name="department" >
+                <option value="">Select Department</option>
+                <option value="Human Resources (HR)">Human Resources (HR)</option>
+                <option value="Engineering / Development">IT (Information Technology)</option>
+                <option value="Quality Assurance (QA) / Testing">Operations</option>
+              </select> <br>
+              <select class="dropdownField" name="position" id="position">
+                <option value="">Select Position</option>
+                <option value="HR Officer">HR Officer</option>
+                <option value="HR Manager">HR Manager</option>
+                <option value="Software Engineer">Software Engineer</option>
+                <option value="QA Tester">QA Tester</option>
+                <option value="IT Manager">IT Manager</option>
+                <option value="Operations Coordinator">Operations Coordinator</option>
+                <option value="Operations Supervisor">Operations Supervisor</option>
+              </select> <br>
+              <select class="dropdownField" name="role" id="role">
+                <option value="">Select Role Type</option>
+                <option value="Employee">Employee</option>
+                <option value="Manager">Manager</option>
+              </select> <br>
+              <input class="inputField" type="number" id="salary" placeholder="Salary" > <br>
+              <div class="formButtons">
+                <button class="addButton" type="submit" id="employeeSubmitBtn">Add Employee</button>
+                <button class="cancelButton" type="button" id="cancelBtn">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- User Management Section -->
+        <div id="userSection">
+          <p class="dashboardTitle">MANAGE USERS</p>
+
+          <div class="userControls">
+            <input class="searchField" type="text" id="searchUser" placeholder="Search user...">
+            <button type="button" id="addUserBtn">Add User</button>
+            <button type="button" id="viewUserTableBtn">View Users</button>
+          </div>
+
+          <!-- User Table -->
+          <table id="userTable">
+            <thead>
+              <tr>
+                <th onclick="userManager.sortUsersBy('userid')">User ID</th>
+                <th onclick="userManager.sortUsersBy('username')">Username</th>
+                <th onclick="userManager.sortUsersBy('role')">Role Type</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="userTableBody"></tbody>
+          </table>
+
+          <!-- Add User Form -->
+          <div class="userFormContainer" id="userFormContainer">
+            <form id="userForm">
+              <label id="formTitle">Add New User</label>
+              <input class="inputField" type="text" id="newUsername" placeholder="Username"> <br>
+              <input class="inputField" type="password" id="newPassword" placeholder="Password"> <br>
+              <select class="dropdownField" id="newRole"> <br>
+                <option value="">Choose Role Type</option>
+                <option value="manager">Manager</option>
+                <option value="employee">Employee</option>
+              </select>
+              <div class="formButtons">
+                <button class="addButton" type="submit">Add User</button>
+                <button class="cancelButton" type="button" id="cancelUserForm">Cancel</button>
+              </div>
+               
+            </form>
+          </div>
         </div>
       </div>
     </div>
-
-      
-    
   </body>
-  <script src="scripts/employee.js"></script>
-  <script src="scripts/user.js"></script>
+  <script src="scripts/user-login.js"></script>
+  <script src="scripts/employee-manager.js"></script>
+  <script src="scripts/user-manager.js"></script>
+  <script src="scripts/admin.js"></script>
 </html>

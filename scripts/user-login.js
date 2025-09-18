@@ -1,48 +1,45 @@
 // User class
 class User {
-  constructor(role, username, password) {
+  constructor(userid, role, username, password) {
+    this.userid = userid;
     this.role = role; // "Admin", "Manager", or "Employee"
     this.username = username;
     this.password = password;
   }
 }
 
-// Employee Manager class
-class UserManager {
+// Login Manager class
+class LoginManager {
   constructor() {
     this.users = JSON.parse(localStorage.getItem("users")) || [];
+    this.loggedInUser = JSON.parse(localStorage.getItem("loggedInUser")) || null;
 
-    // If no users exist, create a default Admin
+    // Create default Admin if none exist
     if (this.users.length === 0) {
-      const defaultAdmin = new User("Admin", "admin", "adminpass123");
+      const defaultAdmin = new User(1, "Admin", "admin", "adminpass123");
       this.users.push(defaultAdmin);
       this.saveUsers();
     }
 
-    this.loginForm = document.getElementById("loginForm");
-    this.loginForm.addEventListener("submit", (e) => this.handleLogin(e));
+    const loginForm = document.getElementById("loginForm");
+    if (loginForm) {
+      loginForm.addEventListener("submit", (e) => this.handleLogin(e));
+    }
   }
 
   saveUsers() {
     localStorage.setItem("users", JSON.stringify(this.users));
   }
 
-  createUser(role, username, password) {
-    // Only Admin can add users
-    const user = new User(role, username, password);
-    this.users.push(user);
-    this.saveUsers();
-  }
-
   handleLogin(e) {
     e.preventDefault();
 
-    const role = document.getElementById("role").value;
-    const username = document.getElementById("username").value;
-    const password = document.getElementById("password").value;
+    const role = document.getElementById("role").value.trim();
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
 
     const user = this.users.find(
-      (u) => u.username === username && u.password === password && u.role === role
+      (u) => u.username === username && u.password === password && u.role.toLowerCase() === role.toLowerCase()
     );
 
     if (user) {
@@ -60,11 +57,12 @@ class UserManager {
       window.location.href = "admin.html"; 
     }
   }
-}
 
-const userManager = new UserManager();
-
-function logout() {
+  logout() {
   localStorage.removeItem("loggedInUser"); // clear session
   window.location.href = "index.html"; // go back to login page
+  }
 }
+
+const loginManager = new LoginManager();
+

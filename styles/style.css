@@ -10,11 +10,12 @@
       
 body{
   height: 100vh;
+  overflow: scroll;
   font-family: Arial, sans-serif;
   background: linear-gradient(to left, rgb(6, 230, 230), rgb(4, 170, 170), rgb(2, 70, 70));
 }
 
-.Dashboard {
+.adminDashboard {
   display: flex;
   flex-direction: row;
   height: calc(100vh - 60px);
@@ -35,7 +36,8 @@ body{
   font-weight: bold;
   background-color: rgb(2, 70, 70);
 }
-#showAddForm, #showEmployeeTable, #logout {
+
+#dashboard, #manageEmployees, #manageUsers, #logout {
   cursor: pointer;
   border: none;
   padding: 10px;
@@ -45,12 +47,13 @@ body{
   color: white;    
 }
 
-#showAddForm:hover, #showEmployeeTable:hover, #logout:hover {
+#dashboard:hover, #manageEmployees:hover, #manageUsers:hover, #logout:hover, #addEmployeeBtn:hover, #viewEmployeeTableBtn:hover, #addUserBtn:hover, #viewUserTableBtn:hover {
   background-color: rgb(2, 70, 70);
 }
 
 .adminRightDashboard {
   flex: 1;
+  overflow: auto;
 }
 
 .dashboardTitle {
@@ -59,23 +62,63 @@ body{
   font-weight: bold;
 }
 
-.addEmployeeForm {
+.employeeControls, .userControls {
+  display: flex;
+  align-items: start;
+  margin-bottom: 15px;
+}
+
+.searchField {
+  margin-left: 10px;
+  padding: 10px;
+  width: 340px;
+  border: solid 1px lightgray;
+  border-radius: 3px;
+}
+
+.searchField:hover{
+  box-shadow: 2px 2px 5px rgb(0, 0, 0, 0.2);
+}
+
+#addEmployeeBtn, #viewEmployeeTableBtn, #addUserBtn, #viewUserTableBtn {
+  justify-content: center;
+  margin-left: 10px;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  width: 140px;
+  background-color: rgb(2, 90, 90);
+  color: white;
+}
+
+.employeeFormContainer, .userFormContainer{
   display: none;
   justify-content: center;
 }
 
-form {
+#employeeForm {
   margin-top: 20px;
   background-color: rgb(14, 14, 15);
   border: solid 1px gray;
   border-radius: 10px;
-  height: 410px;
+  height: 530px;
+  width: 400px;
+  padding: 20px;
+  box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
+} 
+
+#userForm{
+  margin-top: 20px;
+  background-color: rgb(14, 14, 15);
+  border: solid 1px gray;
+  border-radius: 10px;
+  height: 300px;
   width: 400px;
   padding: 20px;
   box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
 }
 
-label {
+#formTitle {
   color: white;
   margin: 20px;
   font-size: 24px;
@@ -86,18 +129,6 @@ label {
   margin: 15px 20px 10px 20px;
   padding: 10px;
   width: 340px;
-}
-
-.searchField {
-  margin: 0 10px 10px 10px;
-  padding: 10px;
-  width: 340px;
-  border: solid 1px lightgray;
-  border-radius: 3px;
-}
-
-.searchField:hover{
-  box-shadow: 2px 2px 5px rgb(0, 0, 0, 0.2);
 }
 
 .dropdownField {
@@ -143,11 +174,19 @@ label {
   background-color: rgb(108, 108, 108);
 }
 
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;   /* horizontal scroll if table is wide */
+  overflow-y: auto;   /* vertical scroll if table is tall */
+  background-color: inherit; /* use same bg as parent (e.g., body) */
+}
+
 table {
   width: 99%;
   border-collapse: collapse;
   margin-left: 10px;
   background-color: #f4f4f4;
+  white-space: nowrap;
 }
 
 th, td {
