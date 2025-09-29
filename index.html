@@ -10,20 +10,39 @@
       <h1>Employee Management System</h1>
     </div>
     
-    <div class="loginContainer">
-      <form id="loginForm">
-        <label>Login</label>
-        <select id="role" class="dropdownField" >
-          <option value="">Choose Role</option>
+    <div class="login-form-container">
+      <form id="login-form">
+        <label id="login-form-title">Login</label><br><br>
+        <label class="form-label">*Role Type</label> <br>
+        <select id="role" class="dropdown-field" >
+          <option value="">Choose Role Type</option>
           <option value="Admin">Admin</option>
           <option value="Manager">Manager</option>
           <option value="Employee">Employee</option>
         </select>
-        <input class="inputField" type="text" id="username" placeholder="Username" >
-        <input class="inputField" type="password" id="password" placeholder="Password" required>
-        <button class="loginButton" type="submit" id="loginBtn">Login</button>
+        <label class="form-label">*Username</label> <br>
+        <input class="input-field" type="text" id="current-username" placeholder="Enter Username" >
+        <label class="form-label">*Password</label> <br>
+        <input class="input-field" type="password" id="current-password" placeholder="Enter Password" required>
+        <button class="login-button" type="submit" id="login-btn">Login</button>
       </form>
     </div>
+
+    <div class="change-password-container" style="display:none;">
+      <form id="change-password-form">
+        <label id="change-form-title">Change Password</label><br><br>
+        <label class="form-label">*Username</label> <br>
+        <input class="input-field" type="text" id="confirm-username" placeholder="Enter Username" >
+        <label class="form-label">*Create New Password</label> <br>
+        <input class="input-field" type="password" id="new-password" placeholder="Enter New Password" required>
+        <label class="form-label">*Confirm Password</label> <br>
+        <input class="input-field" type="password" id="confirm-password" placeholder="Re-enter Password" required>
+        <button class="login-button" type="submit" id="update-password-btn">Update Password</button>
+      </form>
+    </div>
+
+  <script type="module" src="scripts/main.js"></script>
+
   </body>
-  <script src="scripts/user-login.js"></script>
+  
 </html>

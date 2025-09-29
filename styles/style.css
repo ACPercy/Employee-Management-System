@@ -15,13 +15,13 @@ body{
   background: linear-gradient(to left, rgb(6, 230, 230), rgb(4, 170, 170), rgb(2, 70, 70));
 }
 
-.adminDashboard {
+.main-dashboard {
   display: flex;
   flex-direction: row;
   height: calc(100vh - 60px);
 }
 
-.adminLeftDashboard{
+.sidebar{
   display: flex;
   flex-direction: column;
   width: 180px;
@@ -29,7 +29,7 @@ body{
   border-right: solid rgb(2, 70, 70);
 }
 
-.dashboardLabel {
+.dashboard-label {
   margin: 0;
   padding: 10px;
   font-size: 14px;
@@ -37,7 +37,10 @@ body{
   background-color: rgb(2, 70, 70);
 }
 
-#dashboard, #manageEmployees, #manageUsers, #logout {
+#admin-dashboard, 
+#employee-records, 
+#user-accounts, 
+#logout {
   cursor: pointer;
   border: none;
   padding: 10px;
@@ -47,28 +50,40 @@ body{
   color: white;    
 }
 
-#dashboard:hover, #manageEmployees:hover, #manageUsers:hover, #logout:hover, #addEmployeeBtn:hover, #viewEmployeeTableBtn:hover, #addUserBtn:hover, #viewUserTableBtn:hover {
+#admin-dashboard:hover, #employee-records:hover, #user-accounts:hover, 
+#logout:hover, 
+#add-employee-btn:hover, #view-employee-table-btn:hover, #add-user-btn:hover, #view-user-table-btn:hover {
   background-color: rgb(2, 70, 70);
 }
 
-.adminRightDashboard {
+#employee-section,
+#user-section {
+  display: none;
+}
+
+.sidebar p.active {
+  font-weight: bold;
+  color: blue;
+}
+
+.dashboard-content {
   flex: 1;
   overflow: auto;
 }
 
-.dashboardTitle {
+.dashboard-content-label {
   color: white;
   margin: 10px 10px 10px 10px; 
   font-weight: bold;
 }
 
-.employeeControls, .userControls {
+.employee-controls, .user-controls {
   display: flex;
   align-items: start;
   margin-bottom: 15px;
 }
 
-.searchField {
+.search-field {
   margin-left: 10px;
   padding: 10px;
   width: 340px;
@@ -76,11 +91,13 @@ body{
   border-radius: 3px;
 }
 
-.searchField:hover{
+.search-field:hover{
   box-shadow: 2px 2px 5px rgb(0, 0, 0, 0.2);
 }
 
-#addEmployeeBtn, #viewEmployeeTableBtn, #addUserBtn, #viewUserTableBtn {
+#add-employee-btn, #view-employee-table-btn, 
+#add-user-btn, 
+#view-user-table-btn {
   justify-content: center;
   margin-left: 10px;
   border: none;
@@ -91,64 +108,81 @@ body{
   color: white;
 }
 
-.employeeFormContainer, .userFormContainer{
+.employee-form-container {
   display: none;
   justify-content: center;
+  align-items: center;
 }
 
-#employeeForm {
+#employee-form {
   margin-top: 20px;
-  background-color: rgb(14, 14, 15);
-  border: solid 1px gray;
+  background-color: white;
+  border: none;
   border-radius: 10px;
-  height: 530px;
-  width: 400px;
+  height: 610px;
+  width: 440px;
   padding: 20px;
-  box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
 } 
 
-#userForm{
-  margin-top: 20px;
-  background-color: rgb(14, 14, 15);
-  border: solid 1px gray;
-  border-radius: 10px;
-  height: 300px;
-  width: 400px;
-  padding: 20px;
-  box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
+.form-label {
+  margin: 30px;
+  font-size: 12px;
 }
 
-#formTitle {
-  color: white;
-  margin: 20px;
+.user-form-container {
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+#user-form{
+  margin-top: 20px;
+  background-color: white;
+  border: none;
+  border-radius: 10px;
+  height: 365px;
+  width: 440px;
+  padding: 20px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+#employee-form-title,
+#user-form-title,
+#login-form-title, 
+#change-form-title {
+  color: black;
+  margin: 30px;
   font-size: 24px;
   font-weight: bold;
 }
       
-.inputField {
-  margin: 15px 20px 10px 20px;
+.input-field {
+  margin: 0 40px 10px 40px;
   padding: 10px;
   width: 340px;
+  border: 1px solid #ddd;
 }
 
-.dropdownField {
-  margin: 15px 20px 10px 20px;
+.dropdown-field {
+  margin: 0 40px 10px 40px;
   padding: 10px;
-  width: 365px;
+  width: 362px;
   color: gray;
+  border: 1px solid #ddd;
 }
 
-.formButtons {
+.form-buttons {
   display: flex;
   justify-content: center;
   align-items: center;
   column-gap: 20px;
-  margin: 0 20px 10px 20px;
+  margin: 0 40px 10px 40px;
   width: 364px;
   height: 70px;
 }
 
-.addButton {
+.add-button {
   border: none;
   border-radius: 5px;
   padding: 10px;
@@ -157,11 +191,11 @@ body{
   color: white;
 }
 
-.addButton:hover, .loginButton:hover {
+.add-button:hover, .login-button:hover {
   background-color: rgb(2, 150, 150);
 }
 
-.cancelButton {
+.cancel-button {
   border: none;
   border-radius: 5px;
   padding: 10px;
@@ -170,7 +204,7 @@ body{
   color: white;
 }
 
-.cancelButton:hover {
+.cancel-button:hover {
   background-color: rgb(108, 108, 108);
 }
 
@@ -203,7 +237,7 @@ tr:hover {
   background-color: lightgray;
 }
   
-.editButton {
+.edit-button {
   border: none;
   border-radius: 5px;
   padding: 5px;
@@ -212,7 +246,7 @@ tr:hover {
   color: white;
 }
   
-.deleteButton {
+.delete-button {
   border: none;
   border-radius: 5px;
   padding: 5px;
@@ -221,34 +255,50 @@ tr:hover {
   color: white;
 }
 
-.loginPage {
+.login-page {
   display: flex;
   flex-direction: row;
   width: 100%;
-  background-color: pink;
 }
 
-.loginButton {
+.login-button {
   border: none;
-  margin: 20px 20px 10px 20px;
+  margin: 20px 40px 10px 40px;
   padding: 10px;
-  width: 365px;
+  width: 362px;
   background-color: rgb(3, 170, 170);
   color: white;
 }
 
-.loginContainer {
+.login-form-container {
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
-#loginForm {
+#login-form {
   margin-top: 50px;
-  background-color: rgb(14, 14, 15);
-  border: solid 1px gray;
+  background-color: white;
+  border: none;
   border-radius: 10px;
   height: 300px;
-  width: 400px;
+  width: 440px;
   padding: 20px;
-  box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.change-password-container {
+  justify-content: center;
+  align-items: center;
+}
+
+#change-password-form {
+  margin-top: 50px;
+  background-color: white;
+  border: none;
+  border-radius: 10px;
+  height: 300px;
+  width: 440px;
+  padding: 20px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
 }
