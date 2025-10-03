@@ -2,9 +2,9 @@ import { UserManager } from "../managers/user-manager.js";
 import { EmployeeManager } from "../managers/employee-manager.js";
 
 export class UserController {
-  constructor() {
-    this.userManager = new UserManager();
-    this.empManager = new EmployeeManager(); // ✅ to fetch employees
+  constructor(empManager) {
+    this.empManager = empManager; 
+    this.userManager = new UserManager(this.empManager);
     this.editIndex = null;
     this.currentSortField = null;
     this.sortAscending = true;
@@ -74,7 +74,10 @@ export class UserController {
     this.viewUserTableBtn.addEventListener("click", () => this.showTable());
 
     // Add Employee Button
-    this.addUserBtn.addEventListener("click", () => this.showForm("Add New User Account"));
+    this.addUserBtn.addEventListener("click", () => {
+      this.populateEmployeeEIDDropdown();
+      this.showForm("Add New User Account")
+    });
 
     // Handle form submit → add new employee
     this.userForm.addEventListener("submit", (e) => this.handleSubmit(e));
@@ -111,7 +114,7 @@ export class UserController {
 
   // Populate EID dropdown with employees
   populateEmployeeEIDDropdown() {
-    const employees = this.empManager.getAll().filter(emp => emp.id > 1); // exclude admin
+    const employees = this.empManager.getNonAdminEmployees(); // exclude admin
     this.eidSelect.innerHTML = `<option value="">Select Employee</option>`;
     
     employees.forEach(emp => {
@@ -154,22 +157,20 @@ export class UserController {
       return;
     }
 
-    // Link user with employee via EID
-    const newUser = {
-      id: this.userManager.getAll().length + 1, // FIX: incremental ID
-      eid,
-      username,
-      password,
-      role,
-      mustChangePassword: true,
-      status: "Inactive"
-    };
+    try {
+      // Use UserManager's method instead of manually creating object
+      this.userManager.addUser(eid, username, password, role, true, null);
 
-    this.userManager.add(newUser);
+      this.userForm.reset();
+      this.renderTable();
+      this.showTable();
 
-    this.userForm.reset();
-    this.renderTable();
-    this.showTable();
+      if (this.adminController) {
+        this.adminController.homeController.render();
+      }
+    } catch (err) {
+      alert(err.message); // will show "Username already exists!" etc.
+    }
   }
 
   renderTable(list = null) {

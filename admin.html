@@ -15,12 +15,73 @@
       <div class="sidebar">
         <p class="dashboard-label">Welcome Admin</p>
         <p id="admin-dashboard">Dashboard</p>
-        <p id="employee-records">Employee Records</p>
-        <p id="user-accounts">User Account Management</p>
+        <p id="employee-records">Employees</p>
+        <p id="user-accounts">User Accounts</p>
+        <p id="profile-link">Profile</p>
         <p id="logout">Logout</p>
       </div>
 
       <div class="dashboard-content">
+
+        <!-- Home Dashboard Section -->
+        <div id="home-dashboard-section">
+          <div>
+            <p class="dashboard-content-label">DASHBOARD</p>
+          </div>
+            
+          <div class="cards-container">
+              <div class="card-1">
+                <div class="card-icons-container">
+                  <img class="card-icons" src="images/employees.png" alt="">
+                </div>
+                <div class="card-description-container">
+                  <p class="card-description">Total Employees</p>
+                  <p class="card-description" id="total-employees">0</p>
+                </div>
+              </div>
+
+              <div class="card-2">
+                <div class="card-icons-container">
+                  <img class="card-icons" src="images/department.png" alt="">
+                </div>
+                <div class="card-description-container">
+                  <p class="card-description">Total Departments</p>
+                  <p class="card-description" id="total-departments">0</p>
+                </div>
+              </div>
+
+              <div class="card-3">
+                <div class="card-icons-container">
+                  <img class="card-icons" src="images/users.png" alt="">
+                </div>
+                <div class="card-description-container">
+                  <p class="card-description">Total Users</p>
+                  <p class="card-description" id="total-users">0</p>
+                </div>
+              </div> 
+
+              <div class="card-4">
+                <div class="card-icons-container">
+                  <img class="card-icons" src="images/active-users.png" alt="">
+                </div>
+                <div class="card-description-container">
+                  <p class="card-description">Active Users</p>
+                  <p class="card-description" id="total-active-users">0</p>
+                </div>
+              </div>
+
+              <div class="card-5">
+                <div class="card-icons-container">
+                  <img class="card-icons" src="images/inactive-users.png" alt="">
+                </div>
+                <div class="card-description-container">
+                  <p class="card-description">Inactive Users</p>
+                  <p class="card-description" id="total-inactive-users">0</p>
+                </div>
+              </div>
+            </div>
+        </div>
+
         <!-- Employee Section -->
         <div id="employee-section">
           <p class="dashboard-content-label">MANAGE EMPLOYEES</p>
@@ -66,26 +127,28 @@
               <label class="form-label">*Department</label> <br>
               <select class="dropdown-field" id="employee-department" name="department" required>
                 <option value="">Select Department</option>
-                <option value="Human Resources (HR)">Human Resources (HR)</option>
-                <option value="Engineering / Development">IT (Information Technology)</option>
-                <option value="Quality Assurance (QA) / Testing">Operations</option>
-              </select> <br>
-              <label class="form-label">*Position</label> <br>
-              <select class="dropdown-field" name="position" id="employee-position" required>
-                <option value="">Select Position</option>
-                <option value="HR Officer">HR Officer</option>
-                <option value="HR Manager">HR Manager</option>
-                <option value="Software Engineer">Software Engineer</option>
-                <option value="QA Tester">QA Tester</option>
-                <option value="IT Manager">IT Manager</option>
-                <option value="Operations Coordinator">Operations Coordinator</option>
-                <option value="Operations Supervisor">Operations Supervisor</option>
+                <option value="Human Resources">Human Resources</option>
+                <option value="IT / Technology">IT / Technology</option>
+                <option value="Sales">Sales</option>
               </select> <br>
               <label class="form-label">*Role Type</label> <br>
               <select class="dropdown-field" name="role" id="employee-role" required>
                 <option value="">Select Role Type</option>
                 <option value="Employee">Employee</option>
                 <option value="Manager">Manager</option>
+              </select> <br>
+              <label class="form-label">*Position</label> <br>
+              <select class="dropdown-field" name="position" id="employee-position" required>
+                <option value="">Select Position</option>
+                <option value="HR Generalist">HR Generalist</option>
+                <option value="Recruiter">Recruiter</option>
+                <option value="HR Manager">HR Manager</option>
+                <option value="Software Engineer">Software Engineer</option>
+                <option value="QA Tester">QA Tester</option>
+                <option value="IT Manager">IT Manager</option>
+                <option value="Sales Executive">Sales Executive</option>
+                <option value="Sales Representative">Sales Representative</option>
+                <option value="Sales Manager">Sales Manager</option>
               </select> <br>
               <label class="form-label">*Salary</label> <br>
               <input class="input-field" type="number" id="employee-salary" placeholder="Salary" required> <br>
@@ -108,18 +171,20 @@
           </div>
 
           <!-- User Table -->
-          <table id="user-table">
-            <thead>
-              <tr>
-                <th data-field="id" data-label="ID">ID</th>
-                <th data-field="eid" data-label="">Employee ID</th>
-                <th data-field="username" data-label="Username">Username</th>
-                <th data-field="status" data-label="Status">Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody id="user-table-body"></tbody>
-          </table>
+          <div class="table-wrapper">
+            <table id="user-table">
+              <thead>
+                <tr>
+                  <th data-field="id" data-label="ID">ID</th>
+                  <th data-field="eid" data-label="">Employee ID</th>
+                  <th data-field="username" data-label="Username">Username</th>
+                  <th data-field="status" data-label="Status">Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="user-table-body"></tbody>
+            </table>
+          </div>
 
           <!-- Add User Form -->
           <div class="user-form-container" id="user-form-container">
@@ -141,6 +206,70 @@
               </div>
                
             </form>
+          </div>
+        </div>
+
+        <!-- Profile Section -->
+        <div id="profile-section">
+          <div>
+            <p class="dashboard-content-label">PROFILE</p>
+          </div>
+
+          <div class="profile-main-container" id="profile-main-container">
+
+            <div class="profile-container">
+              <div class="profile-icon-container">
+                <img class="profile-icon" src="images/profile.png" alt="Profile Picture">
+              </div>
+              <p class="profile-desc" id="profile-display-name">Percy Perseus</p>
+              <p class="profile-desc" id="profile-display-role">Admin</p>
+              <div class="profile-actions">
+                <button id="edit-profile-btn">Edit Profile</button>
+              </div>
+            </div>
+
+            <div class="profile-details">
+              <p class="profile-desc"><strong>Employee ID:</strong> <span id="profile-eid"></span></p>
+              <p class="profile-desc"><strong>Name:</strong> <span id="profile-detail-name"></span></p>
+              <p class="profile-desc"><strong>Email:</strong> <span id="profile-email"></span></p>
+              <p class="profile-desc"><strong>Department:</strong> <span id="profile-department"></span></p>
+              <p class="profile-desc"><strong>Role Type:</strong> <span id="profile-detail-role"></span></p>
+              <p class="profile-desc"><strong>Position:</strong> <span id="profile-position"></span></p> 
+              <p class="profile-desc"><strong>Salary:</strong> <span id="profile-salary"></span></p>
+              <p class="profile-desc"><strong>Manager:</strong> <span id="profile-manager"></span></p>
+              <p class="profile-desc"><strong>Work Status:</strong> <span id="profile-status"></span></p>
+              <p class="profile-desc"><strong>Date of Joining:</strong> <span id="profile-join-date"></span></p>
+              <p class="profile-desc"><strong>Last Login:</strong> <span id="profile-last-login"></span></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="employee-profile-main-container" id="employee-profile-main-container" style="display: none;">
+
+          <div class="employee-profile-container">
+            <div class="employee-profile-icon-container">
+              <img class="employee-profile-icon" src="images/profile.png" alt="Profile Picture">
+            </div>
+            <p class="profile-desc" id="employee-profile-display-name">Percy Perseus</p>
+            <p class="profile-desc" id="employee-profile-display-role">Admin</p>
+            <div class="profile-actions">
+              <button id="employee-edit-profile-btn">Edit Profile</button>
+            </div>
+          </div>
+
+          <!-- Employee Profile -->
+          <div class="employee-profile-details">
+            <p class="profile-desc"><strong>Employee ID:</strong> <span id="employee-profile-eid"></span></p>
+            <p class="profile-desc"><strong>Name:</strong> <span id="employee-profile-detail-name"></span></p>
+            <p class="profile-desc"><strong>Email:</strong> <span id="employee-profile-email"></span></p>
+            <p class="profile-desc"><strong>Department:</strong> <span id="employee-profile-department"></span></p>
+            <p class="profile-desc"><strong>Role Type:</strong> <span id="employee-profile-detail-role"></span></p>
+            <p class="profile-desc"><strong>Position:</strong> <span id="employee-profile-position"></span></p> 
+            <p class="profile-desc"><strong>Salary:</strong> <span id="employee-profile-salary"></span></p>
+            <p class="profile-desc"><strong>Manager:</strong> <span id="employee-profile-manager"></span></p>
+            <p class="profile-desc"><strong>Work Status:</strong> <span id="employee-profile-status"></span></p>
+            <p class="profile-desc"><strong>Date of Joining:</strong> <span id="employee-profile-join-date"></span></p>
+            <p class="profile-desc"><strong>Last Login:</strong> <span id="employee-profile-last-login"></span></p>
           </div>
         </div>
       </div>

@@ -7,38 +7,41 @@ export class EmployeeManager extends BaseManager {
   }
 
   // Add employee (specialized for Employee objects)
-  addEmployee(eid, firstName, lastName, email, department, position, role, salary, fixedId = null) {
+  addEmployee(eid, firstName, lastName, email, department, position, role, salary, managerEid = null, joinDate = null) {
     const employees = this.getAll();
 
-    let id;
-    if (fixedId !== null) {
-      // Use fixed ID for admin
-      id = fixedId;
-    } else {
-      // Normal employees start from 2
-      id = employees.length > 0 ? Math.max(...employees.map(emp => emp.id)) + 1 : 2;
+    // Auto-generate numeric internal ID
+    const id = employees.length > 0 ? Math.max(...employees.map(emp => emp.id)) + 1 : 1;
+
+    // Auto-generate EID if not provided
+    const finalEid = eid || this.generateEID(firstName);
+
+    // Auto-assign managerEid if employee role is not Manager
+    if (role !== "Manager" && !managerEid) {
+      const manager = employees.find(emp => emp.department === department && emp.role === "Manager");
+      if (manager) managerEid = manager.eid;
     }
 
-    // If no EID provided, auto-generate
-    let finalEid = eid;
-    if (!eid) {
-      finalEid = this.generateEID(firstname);
-    }
+    // Managers do not have a managerEid
+    if (role === "Manager") managerEid = null;
 
     const newEmployee = {
-      id: Number(id),
-      eid: finalEid,
+      id: Number(id),         // internal numeric ID
+      eid: finalEid,          // employee ID (EID)
       firstName,
       lastName,
       email,
       department,
       position,
       role,
-      salary
+      salary,
+      managerEid,             // store manager’s EID
+      joinDate: joinDate || new Date().toISOString().split("T")[0]
     };
 
     employees.push(newEmployee);
     this.saveData(employees);
+    return true;
   }
 
 
@@ -58,9 +61,8 @@ export class EmployeeManager extends BaseManager {
 
     let nextNumber = maxNumber + 1;
 
-    // Special case: Admin already occupies A001
     if (initial === "A" && nextNumber === 1) {
-      nextNumber = 2;
+      nextNumber = 2; 
     }
 
     return `${initial}${String(nextNumber).padStart(3, "0")}`;
@@ -71,18 +73,30 @@ export class EmployeeManager extends BaseManager {
     const index = employees.findIndex(emp => emp.id === id);
     if (index === -1) return;
 
+    // If role changed to Manager, clear managerEid
+    if (updatedData.role === "Manager") updatedData.managerEid = null;
+
+    // If role changed from Manager to Employee, auto-assign managerEid if missing
+    if (updatedData.role !== "Manager" && !updatedData.managerEid) {
+      const deptManager = employees.find(emp => emp.department === updatedData.department && emp.role === "Manager");
+      if (deptManager) updatedData.managerEid = deptManager.eid;
+    }
+
     employees[index] = { ...employees[index], ...updatedData };
     this.saveData(employees);
   }
 
   deleteEmployee(id) {
     const employees = this.getAll().filter(emp => Number(emp.id) !== Number(id));
-    console.log("Deleting ID:", id, "New list:", employees);
     this.saveData(employees);
   }
 
   getById(id) {
     const employees = this.getAll();
     return employees.find(emp => Number(emp.id) === Number(id));
+  }
+
+  getNonAdminEmployees() {
+    return this.getAll().filter(emp => emp.role !== "Admin");
   }
 }

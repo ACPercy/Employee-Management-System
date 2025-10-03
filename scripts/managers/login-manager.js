@@ -1,19 +1,17 @@
 import { UserManager } from "./user-manager.js";
 import { EmployeeManager } from "./employee-manager.js";
-import { AdminSeeder } from "../adminseeder.js";
 import { NavigationManager } from "./navigation-manager.js";
 
 export class LoginManager {
   constructor() {
-    this.userManager = new UserManager();
     this.employeeManager = new EmployeeManager();
-    this.adminSeeder = new AdminSeeder(this.userManager, this.employeeManager);
+    this.userManager = new UserManager(this.employeeManager);
     this.navigation = new NavigationManager();
 
     this.currentUser = null;
     this.loggedInUser = JSON.parse(localStorage.getItem("loggedInUser")) || null;
 
-    this.adminSeeder.seedDefaultAdmin();
+    this.defaultAdmin();
     this.bindEvents();
   }
 
@@ -27,6 +25,23 @@ export class LoginManager {
 
     if (changePasswordForm) {
       changePasswordForm.addEventListener("submit", (e) => this.handleChangePassword(e));
+    }
+  }
+
+  defaultAdmin() {
+    const users = this.userManager.getAll();
+    const adminExists = users.some(u => u.username === "admin");
+
+    if (!adminExists) {
+      // Add admin to UserManager 
+      this.userManager.addUser(
+        "A001",       // EID
+        "admin",        // username
+        "admin123",     // default password
+        "Admin",        // role
+        false,          // mustChangePassword
+        null            // tempPassword
+      );
     }
   }
 
@@ -45,6 +60,12 @@ export class LoginManager {
     }
 
     this.currentUser = user;
+
+    // Update lastLogin timestamp
+    const now = new Date().toISOString(); // full timestamp
+    user.lastLogin = now;
+    this.userManager.updateUser(user);
+    
     localStorage.setItem("loggedInUser", JSON.stringify(user));
 
     if (user.mustChangePassword) {

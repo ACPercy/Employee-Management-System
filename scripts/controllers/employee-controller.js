@@ -1,9 +1,11 @@
 import { EmployeeManager } from "../managers/employee-manager.js";
+import { EmployeeProfileController } from "./employee-profile-controller.js";
 
 export class EmployeeController {
-  constructor() {
+  constructor(empManager, employeeProfileController) {
     // Initialize manager and state
-    this.empManager = new EmployeeManager();
+    this.empManager = empManager;
+    this.employeeProfileController = employeeProfileController;
     this.editIndex = null;
     this.currentSortField = null;
     this.sortAscending = true;
@@ -25,6 +27,7 @@ export class EmployeeController {
     this.searchEmployeeInput.style.display = "flex";
     this.addEmployeeBtn.style.display = "flex";
     this.viewEmployeeTableBtn.style.display = "flex";
+    if (this.employeeProfile) this.employeeProfile.style.display = "none";
   }
 
   showForm(title = "Add New Employee", reset = true, isEdit = false) {
@@ -61,13 +64,27 @@ export class EmployeeController {
     this.lastNameInput = document.getElementById("employee-lastname");
     this.emailInput = document.getElementById("employee-email");
     this.departmentSelect = document.getElementById("employee-department");
-    this.positionSelect = document.getElementById("employee-position");
     this.roleSelect = document.getElementById("employee-role");
+    this.positionSelect = document.getElementById("employee-position");
+    this.positionsData = {
+      Employee: {
+        "Human Resources": ["HR Generalist", "Recruiter"],
+        "IT / Technology": ["Software Engineer", "QA Tester"],
+        "Sales": ["Sales Executive", "Sales Representative"]
+      },
+      Manager: {
+          "Human Resources": ["HR Manager"],
+          "IT / Technology": ["IT Manager"],
+          "Sales": ["Sales Manager"]
+      }
+    };
     this.salaryInput = document.getElementById("employee-salary");
 
     // Form buttons
     this.submitBtn = document.getElementById("employee-submit-btn");
     this.cancelBtn = document.getElementById("employee-cancel-btn");
+
+    this.employeeProfile = document.getElementById("employee-profile-main-container");
   }
 
   // Bind all event listeners in one place
@@ -115,6 +132,36 @@ export class EmployeeController {
     this.employeeTable.querySelectorAll("th[data-field]").forEach(th => {
       th.addEventListener("click", () => this.sortByField(th.dataset.field));
     });
+
+    this.departmentSelect.addEventListener("change", () => {
+      this.updatePositions();
+      this.updateRoleOptions();
+    });
+    this.roleSelect.addEventListener("change", () => this.updatePositions());
+
+    this.employeeTable.addEventListener("click", (e) => {
+      if (e.target.classList.contains("view-button")) {
+        const eid = e.target.dataset.eid;
+        const emp = this.empManager.getAll().find(emp => emp.eid === eid);
+        if (!emp) return;
+
+        // Hide employee table and controls
+        this.searchEmployeeInput.style.display = "none";
+        this.addEmployeeBtn.style.display = "none";
+        this.employeeTable.style.display = "none"; 
+        this.employeeFormContainer.style.display = "none";
+
+        // Show employee profile container only
+        this.employeeProfile.style.display = "flex";
+
+        // Hide the edit button if exists
+        const editBtn = document.getElementById("employee-edit-profile-btn");
+        if (editBtn) editBtn.style.display = "none";
+
+        // Render the clicked employee’s profile
+        this.employeeProfileController.renderEmployee(eid);
+      }
+    });
   }
 
   handleSubmit(e) {
@@ -136,6 +183,13 @@ export class EmployeeController {
       return;
     }
 
+    let managerId = null;
+    // If employee is not a manager, assign the existing manager of the department
+    if (role !== "Manager") {
+      const existingManager = this.getManagerByDepartment(department);
+      if (existingManager) managerId = existingManager.eid; // or ID
+    }
+
     if (this.editIndex !== null) {
       // Update existing employee
       this.empManager.updateEmployee(this.editIndex, {
@@ -146,7 +200,8 @@ export class EmployeeController {
         department,
         position,
         role,
-        salary
+        salary,
+        managerId 
       });
       // Sync with user if exists
       if (this.userManager) {
@@ -160,16 +215,23 @@ export class EmployeeController {
       this.editIndex = null; // reset after update
     } else {
         // Add new employee
-        this.empManager.addEmployee(eid, firstName, lastName, email, department, position, role, salary);
+        this.empManager.addEmployee(eid, firstName, lastName, email, department, position, role, salary, managerId);
     }
 
     // Re-render table
     this.renderTable();
     this.showTable();
+    if (this.adminController) {
+      this.adminController.homeController.render();
+    }
+    if (this.adminController?.userController) {
+      this.adminController.userController.populateEmployeeEIDDropdown();
+    }
+    this.updatePositions();
   }
 
   renderTable(list = null) {
-    const employees = list || this.empManager.getAll();
+    const employees = list || this.empManager.getNonAdminEmployees();
     this.employeeTableBody.innerHTML = "";
 
     employees.forEach(emp => {
@@ -184,6 +246,7 @@ export class EmployeeController {
         <td>${emp.role}</td>
         <td>${emp.salary}</td>
         <td>
+          <button class="view-button" data-eid="${emp.eid}">View</button>
           <button class="edit-button" data-id="${emp.id}">Edit</button>
           <button class="delete-button" data-id="${emp.id}">Delete</button>
         </td>
@@ -208,15 +271,22 @@ export class EmployeeController {
     this.lastNameInput.value = emp.lastName;
     this.emailInput.value = emp.email;
     this.departmentSelect.value = emp.department;
-    this.positionSelect.value = emp.position;
+    this.updateRoleOptions();
     this.roleSelect.value = emp.role;
+    this.updatePositions();
+    this.positionSelect.value = emp.position;
     this.salaryInput.value = emp.salary;
+
   }
 
   deleteEmployee(id) {
     if (confirm("Are you sure you want to delete this employee?")) {
       this.empManager.deleteEmployee(Number(id));
       this.renderTable(this.empManager.getAll());
+    }
+
+    if (this.adminController) {
+      this.adminController.homeController.render();
     }
   }
 
@@ -265,6 +335,43 @@ export class EmployeeController {
     this.renderTable(employees);
   }
 
+  updatePositions() {
+    const selectedRole = this.roleSelect.value;
+    const selectedDept = this.departmentSelect.value;
 
+    // Clear current options
+    this.positionSelect.innerHTML = '<option value="">Select Position</option>';
 
+    // Check if positions exist for the selected role and department
+    if (selectedRole && selectedDept && this.positionsData[selectedRole] && this.positionsData[selectedRole][selectedDept]) {
+      const positions = this.positionsData[selectedRole][selectedDept];
+      positions.forEach(pos => {
+        const option = document.createElement("option");
+        option.value = pos;
+        option.textContent = pos;
+        this.positionSelect.appendChild(option);
+      });
+    }
+  }
+
+  // Find the manager in a specific department
+  getManagerByDepartment(department) {
+    return this.empManager.getAll().find(emp => emp.department === department && emp.role === "Manager");
+  }
+
+  updateRoleOptions() {
+    const selectedDept = this.departmentSelect.value;
+
+    // Enable both options by default
+    this.roleSelect.querySelector('option[value="Manager"]').disabled = false;
+    this.roleSelect.querySelector('option[value="Employee"]').disabled = false;
+
+    // If a manager already exists for this department, disable "Manager"
+    const existingManager = this.getManagerByDepartment(selectedDept);
+    if (existingManager) {
+      this.roleSelect.querySelector('option[value="Manager"]').disabled = true;
+      // Optional: auto-select "Employee" if "Manager" was selected
+      if (this.roleSelect.value === "Manager") this.roleSelect.value = "Employee";
+    }
+  }
 }
